@@ -66,6 +66,27 @@ export function AppProvider({ children }) {
     return newMember
   }, [currentMember])
 
+  const updateMember = useCallback(async (id, data) => {
+    const res = await fetch(`${API}/members?id=${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    })
+    const updated = await res.json()
+    setMembers(prev => prev.map(m => m.id === id ? updated : m))
+    if (currentMember?.id === id) setCurrentMember(updated)
+    return updated
+  }, [currentMember])
+
+  const deleteMember = useCallback(async (id) => {
+    await fetch(`${API}/members?id=${id}`, { method: 'DELETE' })
+    setMembers(prev => prev.filter(m => m.id !== id))
+    if (currentMember?.id === id) {
+      const remaining = members.filter(m => m.id !== id)
+      setCurrentMember(remaining.length > 0 ? remaining[0] : null)
+    }
+  }, [currentMember, members])
+
   const fetchHabits = useCallback(async () => {
     if (!currentMember) return
     const res = await fetch(`${API}/habits?memberId=${currentMember.id}`)
@@ -127,7 +148,7 @@ export function AppProvider({ children }) {
 
   return (
     <AppContext.Provider value={{
-      members, currentMember, selectMember, addMember, fetchMembers,
+      members, currentMember, selectMember, addMember, updateMember, deleteMember, fetchMembers,
       habits, fetchHabits, addHabit, updateHabit, deleteHabit,
       checkins, fetchCheckins, toggleCheckin,
       categories, loading
