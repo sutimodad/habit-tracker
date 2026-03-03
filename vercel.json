@@ -1,0 +1,12 @@
+{
+  "buildCommand": "cd client && npm install && npm run build",
+  "outputDirectory": "client/dist",
+  "framework": null,
+  "rewrites": [
+    { "source": "/api/members", "destination": "/api/members" },
+    { "source": "/api/habits", "destination": "/api/habits" },
+    { "source": "/api/checkins", "destination": "/api/checkins" },
+    { "source": "/api/stats", "destination": "/api/stats" },
+    { "source": "/((?!api/).*)", "destination": "/index.html" }
+  ]
+}

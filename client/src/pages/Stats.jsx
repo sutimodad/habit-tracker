@@ -9,7 +9,7 @@ export default function Stats() {
   useEffect(() => {
     if (!currentMember) return
     setLoading(true)
-    fetch(`/api/stats/${currentMember.id}`)
+    fetch(`/api/stats?memberId=${currentMember.id}`)
       .then(r => r.json())
       .then(data => {
         setStats(data)

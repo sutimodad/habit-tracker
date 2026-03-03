@@ -27,7 +27,7 @@ export function AppProvider({ children }) {
       })
       .catch(() => setLoading(false))
 
-    fetch(`${API}/habits/categories`)
+    fetch(`${API}/habits?categories=true`)
       .then(r => r.json())
       .then(setCategories)
       .catch(() => {})
@@ -86,7 +86,7 @@ export function AppProvider({ children }) {
   }, [currentMember])
 
   const updateHabit = useCallback(async (id, data) => {
-    const res = await fetch(`${API}/habits/${id}`, {
+    const res = await fetch(`${API}/habits?id=${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
@@ -97,7 +97,7 @@ export function AppProvider({ children }) {
   }, [])
 
   const deleteHabit = useCallback(async (id) => {
-    await fetch(`${API}/habits/${id}`, { method: 'DELETE' })
+    await fetch(`${API}/habits?id=${id}`, { method: 'DELETE' })
     setHabits(prev => prev.filter(h => h.id !== id))
   }, [])
 

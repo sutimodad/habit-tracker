@@ -7,7 +7,7 @@ export default function Family() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetch('/api/stats/family/leaderboard')
+    fetch('/api/stats?family=leaderboard')
       .then(r => r.json())
       .then(data => {
         setLeaderboard(data)
